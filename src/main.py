@@ -24,6 +24,9 @@ class Main:
 			game.show_bg(screen)	# Add checkerboard
 			game.show_pieces(screen)	# Add pieces
 
+			if dragger.dragging:
+				dragger.update_blit(screen)
+
 			for event in pygame.event.get():
 				
 				# Click
@@ -43,6 +46,8 @@ class Main:
 				if event.type == pygame.MOUSEMOTION:
 					if dragger.dragging:
 						dragger.update_mouse(event.pos)
+						game.show_bg(screen)
+						game.show_pieces(screen)
 						dragger.update_blit(screen)
 				
 				# Click release
