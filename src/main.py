@@ -17,15 +17,43 @@ class Main:
 
 		screen = self.screen
 		game = self.game
+		board = self.game.board
+		dragger = self.game.dragger
 		
 		while True:
 			game.show_bg(screen)	# Add checkerboard
 			game.show_pieces(screen)	# Add pieces
 
 			for event in pygame.event.get():
+				
+				# Click
+				if event.type == pygame.MOUSEBUTTONDOWN:
+					dragger.update_mouse(event.pos)
+
+					clicked_row = dragger.mouseY // SQSIZE
+					clicked_col = dragger.mouseX // SQSIZE
+
+
+					if board.squares[clicked_row][clicked_col].has_piece():
+						piece = board.squares[clicked_row][clicked_col].piece
+						dragger.save_initial(event.pos)
+						dragger.drag_piece(piece)
+
+				# Mouse motion
+				if event.type == pygame.MOUSEMOTION:
+					if dragger.dragging:
+						dragger.update_mouse(event.pos)
+						dragger.update_blit(screen)
+				
+				# Click release
+				if event.type == pygame.MOUSEBUTTONUP:
+					dragger.undrag_piece()
+
+				# Quit app
 				if event.type == pygame.QUIT:
 					pygame.quit()
 					sys.exit()
+
 			pygame.display.update()
 
 main = Main()
