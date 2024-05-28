@@ -45,6 +45,9 @@ class Piece:
             f'assets/images/imgs-{size}px/{self.color}_{self.name}.png'
         )
 
+    def add_move(self, move):
+        self.moves.append(move)
+
 class Pawn(Piece):
     """
     Represents a pawn chess piece.
